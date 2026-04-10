@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="lesson-view reveal">
+    <div class="lesson-view-header">
+        <span class="level-pill">{{ lesson.level }}</span>
+        <h1>{{ lesson.title }}</h1>
+        <p>{{ lesson.description }}</p>
+    </div>
+
+    <article class="lesson-content">
+        <h2>Core Lesson</h2>
+        <p>{{ lesson.content | replace('\n', '<br>') | safe }}</p>
+    </article>
+
+    <article class="lesson-content accent">
+        <h2>Target Speaking Sentence</h2>
+        <p>"{{ lesson.target_sentence }}"</p>
+    </article>
+
+    <div class="lesson-meta-grid">
+        <div>
+            <strong>Status</strong>
+            <span>{{ progress.status }}</span>
+        </div>
+        <div>
+            <strong>Best Quiz Score</strong>
+            <span>{{ progress.best_score | round(1) }}%</span>
+        </div>
+        <div>
+            <strong>Quiz Questions</strong>
+            <span>{{ question_count }}</span>
+        </div>
+        <div>
+            <strong>Total Attempts</strong>
+            <span>{{ progress.attempts }}</span>
+        </div>
+    </div>
+
+    <div class="lesson-actions wide">
+        <a class="btn" href="/lesson/{{ lesson.id }}/quiz">Take Quiz</a>
+        <a class="btn ghost" href="/practice/speaking/{{ lesson.id }}">Practice Speaking</a>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="result-shell reveal">
+    <h1>Quiz Result: {{ lesson.title }}</h1>
+    <p class="score-line">Your Score: <strong>{{ score }}%</strong> ({{ correct_answers }}/{{ total_questions }})</p>
+
+    {% if passed %}
+        <div class="success-box">Great job. You passed this lesson.</div>
+    {% else %}
+        <div class="warn-box">Keep practicing. Review mistakes and try again.</div>
+    {% endif %}
+
+    <div class="review-list">
+        {% for row in review_rows %}
+            <article class="review-item {{ 'ok' if row.is_correct else 'bad' }}">
+                <h2>{{ loop.index }}. {{ row.question.prompt }}</h2>
+                <p>Your answer: {{ row.submitted if row.submitted else 'No answer' }}</p>
+                <p>Correct answer: {{ row.question.correct_option }} - {{ row.question|attr('option_' ~ row.question.correct_option) }}</p>
+            </article>
+        {% endfor %}
+    </div>
+
+    <div class="lesson-actions wide">
+        <a class="btn" href="/lesson/{{ lesson.id }}/quiz">Retake Quiz</a>
+        <a class="btn ghost" href="/practice/speaking/{{ lesson.id }}">Practice Speaking</a>
+    </div>
+</section>
+{% endblock %}

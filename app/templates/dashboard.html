@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero-panel reveal">
+    <h1>Welcome, {{ user.username }}.</h1>
+    <p>Build practical fluency from A1 foundations to C1 public speaking confidence.</p>
+    <div class="stats-row">
+        <article>
+            <strong>{{ completed_count }}</strong>
+            <span>Completed Lessons</span>
+        </article>
+        <article>
+            <strong>{{ total_lessons }}</strong>
+            <span>Total Lessons</span>
+        </article>
+        <article>
+            <strong>{{ ((completed_count / total_lessons) * 100) | round(1) if total_lessons else 0 }}%</strong>
+            <span>Completion Rate</span>
+        </article>
+    </div>
+</section>
+
+<section class="auto-zone reveal">
+    <div class="auto-zone-head">
+        <h2>Auto Conversation Zone</h2>
+        <p>Start voice-to-voice practice directly from home page. Pick a lesson and jump in.</p>
+    </div>
+    <div class="auto-zone-grid">
+        {% for lesson in lessons %}
+            <article class="auto-zone-card">
+                <span class="level-pill">{{ lesson.level }}</span>
+                <h3>{{ lesson.title }}</h3>
+                <p>{{ lesson.description }}</p>
+                <a class="btn" href="/practice/speaking/{{ lesson.id }}?auto=1">Start Auto Conversation</a>
+            </article>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="lesson-grid">
+    {% for lesson in lessons %}
+        {% set p = progress_map.get(lesson.id) %}
+        <article class="lesson-card reveal">
+            <header>
+                <span class="level-pill">{{ lesson.level }}</span>
+                <h2>{{ lesson.title }}</h2>
+            </header>
+            <p>{{ lesson.description }}</p>
+            <div class="lesson-meta">
+                <span>Status: {{ p.status if p else "not_started" }}</span>
+                <span>Best Quiz: {{ (p.best_score | round(1)) if p else 0 }}%</span>
+            </div>
+            <div class="lesson-actions">
+                <a class="btn" href="/lesson/{{ lesson.id }}">Open Lesson</a>
+                <a class="btn ghost" href="/practice/speaking/{{ lesson.id }}">Speaking</a>
+            </div>
+        </article>
+    {% endfor %}
+</section>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="speaking-shell reveal" data-speaking-panel data-lesson-id="{{ lesson.id }}" data-target-sentence="{{ lesson.target_sentence }}">
+    <h1>Speaking Practice: {{ lesson.title }}</h1>
+    <p>Read the sentence aloud. The system compares your spoken text with the target sentence.</p>
+
+    <article class="target-sentence">
+        <div class="target-head">
+            <h2>Target Sentence</h2>
+            <div class="signal-wrap">
+                <button class="signal-btn" type="button" data-action="play-sample" aria-label="Play sample pronunciation">
+                    <span class="signal-triangle"></span>
+                </button>
+                <span class="signal-label">Play Signal</span>
+            </div>
+        </div>
+        <p>{{ lesson.target_sentence }}</p>
+    </article>
+
+    <div class="speak-controls">
+        <button class="btn" type="button" data-action="start-auto-dialogue">One-Click Auto Conversation</button>
+        <button class="btn ghost" type="button" data-action="stop-auto-dialogue">Stop Auto</button>
+        <button class="btn ghost" type="button" data-action="start-listening">Record Pronunciation</button>
+        <button class="btn ghost" type="button" data-action="stop-listening">Stop Record</button>
+        <button class="btn" type="button" data-action="submit-speaking">Evaluate Pronunciation</button>
+    </div>
+    <p class="muted" data-pronounce-status>Press Play Signal or One-Click Auto Conversation to open voice access popup.</p>
+
+    <article class="transcript-box">
+        <h2>Your Transcript</h2>
+        <p data-speaking-output>Press Record Pronunciation and speak clearly.</p>
+    </article>
+
+    <article class="feedback-box">
+        <h2>AI Feedback</h2>
+        <p data-speaking-feedback>Your result will appear here.</p>
+    </article>
+
+    <article class="dialogue-box">
+        <h2>Instant Dialogue</h2>
+        <p>Speak or type and get immediate conversation practice.</p>
+
+        <div class="dialogue-log" data-dialogue-log></div>
+
+        <div class="dialogue-actions">
+            <input type="text" data-dialogue-input placeholder="Type your message for instant practice">
+            <button class="btn" type="button" data-action="speak-message">Speak Message</button>
+            <button class="btn accent" type="button" data-action="send-dialogue">Send</button>
+            <button class="btn ghost" type="button" data-action="replay-reply">Replay Reply</button>
+        </div>
+
+        <p class="muted" data-dialogue-status>Ready for instant dialogue.</p>
+    </article>
+
+    <div class="voice-modal" data-voice-modal hidden>
+        <div class="voice-modal-backdrop" data-action="close-voice-modal"></div>
+        <div class="voice-modal-card" role="dialog" aria-modal="true" aria-labelledby="voiceAccessTitle">
+            <h2 id="voiceAccessTitle">Voice Access</h2>
+            <p>Enable microphone and browser audio to use auto turn-taking conversation.</p>
+            <div class="voice-modal-actions">
+                <button class="btn accent" type="button" data-action="grant-voice-access">Open Access</button>
+                <button class="btn ghost" type="button" data-action="close-voice-modal">Not Now</button>
+            </div>
+            <p class="muted" data-voice-access-status>Waiting for your action.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

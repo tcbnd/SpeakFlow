@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="quiz-shell reveal">
+    <h1>{{ lesson.title }} Quiz</h1>
+    <p>Answer all questions. You need at least 70% to mark this lesson as completed.</p>
+
+    <form method="post" class="quiz-form">
+        {% for question in questions %}
+            <article class="quiz-question">
+                <h2>{{ loop.index }}. {{ question.prompt }}</h2>
+                <label><input type="radio" name="q_{{ question.id }}" value="a" required> {{ question.option_a }}</label>
+                <label><input type="radio" name="q_{{ question.id }}" value="b"> {{ question.option_b }}</label>
+                <label><input type="radio" name="q_{{ question.id }}" value="c"> {{ question.option_c }}</label>
+                <label><input type="radio" name="q_{{ question.id }}" value="d"> {{ question.option_d }}</label>
+            </article>
+        {% endfor %}
+        <button type="submit">Submit Quiz</button>
+    </form>
+</section>
+{% endblock %}

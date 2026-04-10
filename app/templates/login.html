@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="auth-card">
+    <h1>Welcome Back</h1>
+    <p>Sign in to continue your English fluency journey.</p>
+
+    {% if error %}
+        <div class="alert">{{ error }}</div>
+    {% endif %}
+
+    <form method="post" class="form-grid">
+        <label for="identifier">Email or Username</label>
+        <input id="identifier" name="identifier" type="text" required>
+
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" required>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <p class="muted">No account yet? <a href="/register">Create one</a></p>
+</section>
+{% endblock %}

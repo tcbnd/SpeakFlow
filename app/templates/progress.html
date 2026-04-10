@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="progress-shell reveal">
+    <h1>{{ user.username }}'s Progress</h1>
+
+    <div class="stats-row">
+        <article>
+            <strong>{{ completed_count }}</strong>
+            <span>Completed Lessons</span>
+        </article>
+        <article>
+            <strong>{{ total_lessons }}</strong>
+            <span>Total Lessons</span>
+        </article>
+        <article>
+            <strong>{{ avg_score }}%</strong>
+            <span>Average Best Quiz Score</span>
+        </article>
+    </div>
+
+    <h2>Lesson Progress</h2>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Lesson</th>
+                    <th>Level</th>
+                    <th>Status</th>
+                    <th>Best Score</th>
+                    <th>Attempts</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lesson in lessons %}
+                    {% set p = progress_map.get(lesson.id) %}
+                    <tr>
+                        <td>{{ lesson.title }}</td>
+                        <td>{{ lesson.level }}</td>
+                        <td>{{ p.status if p else 'not_started' }}</td>
+                        <td>{{ (p.best_score | round(1)) if p else 0 }}%</td>
+                        <td>{{ p.attempts if p else 0 }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h2>Recent Quiz Attempts</h2>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Lesson ID</th>
+                    <th>Score</th>
+                    <th>Correct</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in quiz_attempts %}
+                    <tr>
+                        <td>{{ item.lesson_id }}</td>
+                        <td>{{ item.score }}%</td>
+                        <td>{{ item.correct_answers }}/{{ item.total_questions }}</td>
+                        <td>{{ item.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="4">No quiz attempts yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h2>Recent Speaking Attempts</h2>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Lesson ID</th>
+                    <th>Accuracy</th>
+                    <th>Spoken Text</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in speaking_attempts %}
+                    <tr>
+                        <td>{{ item.lesson_id }}</td>
+                        <td>{{ item.accuracy }}%</td>
+                        <td>{{ item.spoken_text }}</td>
+                        <td>{{ item.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="4">No speaking attempts yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}
